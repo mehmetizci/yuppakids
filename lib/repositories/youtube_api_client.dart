@@ -4,7 +4,7 @@ import 'package:yuppakids/models/models.dart';
 import 'dart:convert';
 
 class YoutubeApiClient {
-  static const baseUrl = 'https://www.metaweather.com';
+  static const baseUrl = 'http://localhost:3006';
   final http.Client httpClient;
 
   YoutubeApiClient({

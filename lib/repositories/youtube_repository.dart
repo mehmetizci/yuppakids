@@ -9,7 +9,7 @@ class YoutubeRepository {
   YoutubeRepository({@required this.youtubeApiClient})
       : assert(youtubeApiClient != null);
 
-  Future<YoutubeSearchResult> getWeather(String searchTerm) async {
+  Future<YoutubeSearchResult> getVideo(String searchTerm) async {
     final searchResult = await youtubeApiClient.searchVideo(searchTerm);
     return searchResult;
   }
