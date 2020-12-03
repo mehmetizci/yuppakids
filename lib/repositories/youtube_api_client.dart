@@ -4,7 +4,7 @@ import 'package:yuppakids/models/models.dart';
 import 'dart:convert';
 
 class YoutubeApiClient {
-  static const baseUrl = 'http://localhost:3006';
+  static const baseUrl = 'http://192.168.1.26:3006';
   final http.Client httpClient;
 
   YoutubeApiClient({
