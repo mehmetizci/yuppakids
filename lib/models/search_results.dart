@@ -21,7 +21,10 @@ class YoutubeSearchResult extends Equatable {
     final results = (json['results'] as List<dynamic>)
         .map((dynamic item) => Results.fromJson(item as Map<String, dynamic>))
         .toList();
-    return YoutubeSearchResult(results: results);
+    final key = json['key'];
+    final nextPageToken = json['nextPageToken'];
+    return YoutubeSearchResult(
+        results: results, key: key, nextPageToken: nextPageToken);
   }
 
   @override

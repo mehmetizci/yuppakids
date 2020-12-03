@@ -8,6 +8,15 @@ class SearchVideo extends StatefulWidget {
 class _SearchVideoState extends State<SearchVideo> {
   final TextEditingController _textController = TextEditingController();
 
+  final _scrollController = ScrollController();
+  final _scrollThreshold = 200.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,9 +31,10 @@ class _SearchVideoState extends State<SearchVideo> {
                 padding: EdgeInsets.only(left: 10.0),
                 child: TextFormField(
                   controller: _textController,
+                  autofocus: true,
                   decoration: InputDecoration(
-                    labelText: 'Search',
-                    hintText: 'Tarkan',
+                    labelText: 'Ara',
+                    hintText: 'Youtube videolar içinde ara...',
                   ),
                 ),
               ),
@@ -39,5 +49,19 @@ class _SearchVideoState extends State<SearchVideo> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    if (maxScroll - currentScroll <= _scrollThreshold) {
+      // _postBloc.add(PostFetched());
+    }
   }
 }

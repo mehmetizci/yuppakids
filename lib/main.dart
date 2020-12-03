@@ -28,10 +28,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Weather',
+      title: 'Flutter Video Search',
       home: BlocProvider(
         create: (context) => SearchBloc(youtubeRepository: youtubeRepository),
-        child: Search(),
+        child: Home(),
       ),
     );
   }
