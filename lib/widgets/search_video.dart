@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:yuppakids/theme/theme.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yuppakids/blocs/search/blocs.dart';
 
 class SearchVideo extends StatefulWidget {
   @override
@@ -19,11 +22,24 @@ class _SearchVideoState extends State<SearchVideo> {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider(
+        create: (context) => SearchBloc(youtubeRepository: youtubeRepository)
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
+        // backgroundColor: Theme.of(context).backgroundColor,
+        /*  appBar: AppBar(
         title: Text('Search Video'),
-      ),
-      body: Container(
+      ),*/
+        body: BlocConsumer<SearchBloc, SearchState>(listener: (context, state) {
+      // TODO: implement listener
+    }, builder: (context, state) {
+      return Container(
+        decoration: BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage('assets/images/pampa.png'),
+            fit: BoxFit.fill,
+          ),
+        ),
         child: Column(
           children: [
             Stack(
@@ -33,44 +49,49 @@ class _SearchVideoState extends State<SearchVideo> {
                   child: Container(
                     height: 35,
                     width: double.infinity,
-                    //   color: theme.primaryColor,
+                    color: theme.primaryColor,
                   ),
                 ),
                 Align(
                   alignment: Alignment.center,
                   child: Container(
                     height: 60,
-                    margin: EdgeInsets.symmetric(horizontal: 24),
+                    margin: EdgeInsets.symmetric(horizontal: 100, vertical: 20),
                     padding: EdgeInsets.symmetric(horizontal: 12),
                     width: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      //  color: theme.cardColor,
+                      color: theme.cardColor,
                     ),
                     child: Row(
                       children: [
                         Icon(Icons.search, color: theme.primaryColor),
                         Expanded(
                           child: TextField(
-                            controller: description,
+                            controller: _textController,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText:
                                     "Search by title, expertise, companies,"),
                           ),
                         ),
-                        Icon(Icons.filter_alt).padding(8).ripple(() {
+                        Icon(Icons.filter_alt).p(8).ripple(() {
                           // displayFilterJob();
                         }),
                         // SizedBox(width:8),
                         Container(
                           color: theme.primaryColor,
-                          child: Icon(Icons.search, color: Colors.amber).p(8),
+                          child: Icon(Icons.search,
+                                  color: theme.colorScheme.onPrimary)
+                              .p(8),
                         ).cornerRadius(5).ripple(() {
-                          if (description.text.isEmpty) return;
+                          if (_textController.text.isEmpty) return;
                           FocusManager.instance.primaryFocus.unfocus();
-                          BlocProvider.of<JobBloc>(context)
-                            ..add(SearchJobBy(description.text, null, null));
+                          if (_textController.text != null) {
+                            BlocProvider.of<SearchBloc>(context).add(
+                                SearchRequested(
+                                    searchTerm: _textController.text));
+                          }
                         })
                       ],
                     ),
@@ -139,8 +160,8 @@ class _SearchVideoState extends State<SearchVideo> {
             )*/
           ],
         ),
-      ),
-    );
+      );
+    }));
   }
 
   @override

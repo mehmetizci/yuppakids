@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yuppakids/blocs/search/blocs.dart';
 import 'package:yuppakids/widgets/widgets.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   Bloc.observer = SimpleBlocObserver();
@@ -27,12 +28,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Video Search',
-      home: BlocProvider(
-        create: (context) => SearchBloc(youtubeRepository: youtubeRepository),
-        child: Home(),
-      ),
+      home: Home(),
     );
   }
 }
