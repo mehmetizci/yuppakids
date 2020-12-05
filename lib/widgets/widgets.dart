@@ -4,3 +4,4 @@ export 'settings.dart';
 export 'searching.dart';
 export 'search_grid.dart';
 export 'home.dart';
+export 'error_widget.dart';

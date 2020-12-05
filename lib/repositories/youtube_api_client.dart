@@ -13,7 +13,7 @@ class YoutubeApiClient {
 
   Future<YoutubeSearchResult> searchVideo(String searchStr) async {
     final searchUrl =
-        '$baseUrl/api/search?search_query=$searchStr' + '&sp=EgIQAQ%253D%253D';
+        '$baseUrl/api/search?search_query=$searchStr' + '&sp=CAASBBABIAE%253D';
     final searchResponse = await this.httpClient.get(searchUrl);
     if (searchResponse.statusCode != 200) {
       throw Exception('Error for getting search results');

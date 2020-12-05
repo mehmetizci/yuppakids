@@ -29,10 +29,15 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Video Search',
-      home: Home(),
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+    return BlocProvider<SearchBloc>(
+      create: (BuildContext context) =>
+          SearchBloc(youtubeRepository: youtubeRepository),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        home: Home(),
+      ),
     );
   }
 }

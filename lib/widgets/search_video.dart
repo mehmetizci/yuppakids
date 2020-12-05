@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yuppakids/theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yuppakids/blocs/search/blocs.dart';
+import 'package:yuppakids/widgets/widgets.dart';
+import 'package:flutter/services.dart';
 
 class SearchVideo extends StatefulWidget {
   @override
@@ -10,7 +12,7 @@ class SearchVideo extends StatefulWidget {
 
 class _SearchVideoState extends State<SearchVideo> {
   final TextEditingController _textController = TextEditingController();
-
+  FocusNode _focus = new FocusNode();
   final _scrollController = ScrollController();
   final _scrollThreshold = 200.0;
 
@@ -18,22 +20,26 @@ class _SearchVideoState extends State<SearchVideo> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    _focus.addListener(_onFocusChange);
+    SystemChrome.setEnabledSystemUIOverlays([]);
+  }
+
+  void _onFocusChange() {
+    SystemChrome.setEnabledSystemUIOverlays([]);
   }
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider(
-        create: (context) => SearchBloc(youtubeRepository: youtubeRepository)
     final theme = Theme.of(context);
     return Scaffold(
+        //resizeToAvoidBottomInset: true,
         // backgroundColor: Theme.of(context).backgroundColor,
         /*  appBar: AppBar(
         title: Text('Search Video'),
       ),*/
-        body: BlocConsumer<SearchBloc, SearchState>(listener: (context, state) {
-      // TODO: implement listener
-    }, builder: (context, state) {
+        body: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
       return Container(
+        width: double.infinity,
         decoration: BoxDecoration(
           image: new DecorationImage(
             image: new AssetImage('assets/images/pampa.png'),
@@ -69,10 +75,13 @@ class _SearchVideoState extends State<SearchVideo> {
                         Expanded(
                           child: TextField(
                             controller: _textController,
+                            focusNode: _focus,
+                            /*onTap: () =>
+                                SystemChrome.setEnabledSystemUIOverlays([]),*/
+                            textInputAction: TextInputAction.next,
                             decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText:
-                                    "Search by title, expertise, companies,"),
+                                hintText: "Youtube videolarda ara...,"),
                           ),
                         ),
                         Icon(Icons.filter_alt).p(8).ripple(() {
@@ -88,9 +97,9 @@ class _SearchVideoState extends State<SearchVideo> {
                           if (_textController.text.isEmpty) return;
                           FocusManager.instance.primaryFocus.unfocus();
                           if (_textController.text != null) {
-                            BlocProvider.of<SearchBloc>(context).add(
-                                SearchRequested(
-                                    searchTerm: _textController.text));
+                            BlocProvider.of<SearchBloc>(context)
+                              ..add(SearchRequested(
+                                  searchTerm: _textController.text));
                           }
                         })
                       ],
@@ -99,43 +108,28 @@ class _SearchVideoState extends State<SearchVideo> {
                 )
               ],
             ),
-            /*BlocBuilder<JobBloc, JobState>(
+            BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
-                if ((state is OnJobLoading)) {
-                  return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    SizedBox(height: 120),
-                    CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(theme.primaryColor),
-                      strokeWidth: 4,
-                    ),
-                  ]);
-                } else if (state is ErrorJobListState) {
-                  return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    GErrorContainer(
-                      title: "Server down :(",
-                      description: "Try again in some time",
-                    ),
-                  ]);
-                }
-                if (state is LoadedJobsList) {
-                  if (state.isNotNullEmpty) {
-                    return Column(
+                if ((state is SearchInitial)) {
+                  return Center(child: Text('Lütfen arama yapın...'));
+                } else if (state is SearchLoadFailure) {
+                  return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GErrorContainer(
-                          title: "No job found",
-                          description: description.text.isEmpty ? "Try again in sometime" : "Try again with other keyword",
+                          title: "Server down :(",
+                          description: "Try again in some time",
                         ),
-                      ],
-                    );
-                  }
+                      ]);
+                }
+                if (state is SearchLoadSuccess) {
                   return ListView.builder(
-                    controller: _controller,
+                    controller: _scrollController,
                     physics: BouncingScrollPhysics(),
                     padding: EdgeInsets.symmetric(vertical: 16),
-                    itemCount: state.jobs.length + 1,
+                    itemCount: state.results.length,
                     itemBuilder: (_, index) {
-                      if (index == state.jobs.length) {
+                      /* if (index == state.results.length) {
                         if (state is OnNextJobLoading) {
                           return Container(
                               height: 40,
@@ -143,21 +137,24 @@ class _SearchVideoState extends State<SearchVideo> {
                               alignment: Alignment.center,
                               child: CircularProgressIndicator(
                                 strokeWidth: 3,
-                                valueColor: AlwaysStoppedAnimation(theme.primaryColor),
+                                valueColor:
+                                    AlwaysStoppedAnimation(theme.primaryColor),
                               ));
                         }
                         return SizedBox.shrink();
-                      }
-                      return JobTile(model: state.jobs[index]);
+                      }*/
+                      return Text(state.results[index].video.title);
                     },
                   ).extended;
                 }
-                return CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation(theme.primaryColor),
-                  strokeWidth: 4,
-                );
+                if (state is SearchLoadInProgress) {
+                  return CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(theme.primaryColor),
+                    strokeWidth: 4,
+                  );
+                }
               },
-            )*/
+            )
           ],
         ),
       );
@@ -166,6 +163,9 @@ class _SearchVideoState extends State<SearchVideo> {
 
   @override
   void dispose() {
+    // Clean up the focus node when the Form is disposed.
+    SystemChrome.restoreSystemUIOverlays();
+    _focus.dispose();
     _scrollController.dispose();
     super.dispose();
   }
