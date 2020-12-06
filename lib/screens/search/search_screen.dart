@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yuppakids/size_config.dart';
 import 'package:yuppakids/screens/search/components/body.dart';
-import 'package:yuppakids/models/models.dart';
-import 'package:yuppakids/theme/theme.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yuppakids/blocs/search/blocs.dart';
-import 'package:yuppakids/widgets/widgets.dart';
 import 'package:flutter/services.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -19,7 +14,6 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-
     SystemChrome.setEnabledSystemUIOverlays([]);
   }
 
@@ -27,7 +21,15 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      body: Body(),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/pampa.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Body(),
+      ),
     );
   }
 
@@ -39,7 +41,6 @@ class _SearchScreenState extends State<SearchScreen> {
   void dispose() {
     // Clean up the focus node when the Form is disposed.
     SystemChrome.restoreSystemUIOverlays();
-
     super.dispose();
   }
 }

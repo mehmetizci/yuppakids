@@ -11,7 +11,7 @@ class IconBtn extends StatelessWidget {
     return Container(
       width: SizeConfig.screenWidth * 0.15,
       alignment: Alignment.centerLeft,
-      height: 80,
+      height: getProportionateScreenHeight(80),
       child: IconButton(
           alignment: Alignment.center,
           onPressed: () => Navigator.pop(context),

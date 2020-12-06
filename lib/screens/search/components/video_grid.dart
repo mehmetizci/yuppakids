@@ -12,25 +12,35 @@ class VideoGrid extends StatefulWidget {
 class _VideoGridState extends State<VideoGrid> {
   final _scrollController = ScrollController();
   final _scrollThreshold = 200.0;
+  SearchBloc _searchBloc;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    _searchBloc = BlocProvider.of<SearchBloc>(context);
+  }
+
+  bool _handleScrollNotification(ScrollNotification notification) {
+    if (notification is ScrollEndNotification &&
+        _scrollController.position.extentAfter == 0) {
+      _searchBloc.onFetchNextPageResults();
+    }
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: SizeConfig.screenWidth * 0.8,
-      height: SizeConfig.screenHeight * 0.8,
+      width: SizeConfig.screenWidth * 0.80,
+      // height: SizeConfig.screenHeight * 0.80,
       alignment: Alignment.centerLeft,
       child: SizedBox(
-        height: getProportionateScreenHeight(380),
+        height: getProportionateScreenHeight(480),
         child: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
           if (state is SearchInitial) {
             return CenteredMessage(
-                icon: Icons.ondemand_video, message: 'Start searching');
+                icon: Icons.ondemand_video, message: 'Aramaya başlayın');
           }
           if (state is SearchLoadInProgress) {
             return Center(
@@ -38,28 +48,35 @@ class _VideoGridState extends State<VideoGrid> {
             );
           }
           if (state is SearchLoadSuccess) {
-            return ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: state.results.length,
-              controller: _scrollController,
-              itemBuilder: (context, index) {
-                return Container(
-                  // height: 200,
-                  child: Card(
-                    semanticContainer: true,
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    child: Image.network(
-                      state.results[index].video.thumbnailSrc,
-                      fit: BoxFit.fill,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    elevation: 5,
-                    margin: EdgeInsets.all(10),
-                  ),
-                );
-              },
+            return NotificationListener<ScrollNotification>(
+              onNotification: _handleScrollNotification,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: state.results.length + 1,
+                controller: _scrollController,
+                itemBuilder: (context, index) {
+                  return index >= state.results.length
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Container(
+                          // height: 200,
+                          child: Card(
+                            semanticContainer: true,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            child: Image.network(
+                              state.results[index].video.thumbnailSrc,
+                              fit: BoxFit.fill,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            elevation: 5,
+                            margin: EdgeInsets.all(10),
+                          ),
+                        );
+                },
+              ),
             );
           }
           return CenteredMessage(

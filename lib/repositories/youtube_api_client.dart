@@ -11,10 +11,16 @@ class YoutubeApiClient {
     @required this.httpClient,
   }) : assert(httpClient != null);
 
-  Future<YoutubeSearchResult> searchVideo(String searchStr) async {
-    final searchUrl =
-        '$baseUrl/api/search?search_query=$searchStr' + '&sp=CAASBBABIAE%253D';
-    final searchResponse = await this.httpClient.get(searchUrl);
+  Future<YoutubeSearchResult> searchVideo(
+      {String searchStr, String key = '', String pageToken = ''}) async {
+    final searchUrl = '$baseUrl/api/search?search_query=$searchStr' +
+        (key.isNotEmpty && pageToken.isNotEmpty
+            ? '&key=$key&pageToken=$pageToken'
+            : '') +
+        '&sp=CAASBBABIAE%253D';
+
+    final urlEncoded = Uri.encodeFull(searchUrl);
+    final searchResponse = await this.httpClient.get(urlEncoded);
     if (searchResponse.statusCode != 200) {
       throw Exception('Error for getting search results');
     }
