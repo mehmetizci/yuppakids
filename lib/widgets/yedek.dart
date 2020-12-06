@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yuppakids/models/models.dart';
-
+import 'package:yuppakids/theme/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yuppakids/blocs/search/blocs.dart';
 import 'package:yuppakids/widgets/widgets.dart';

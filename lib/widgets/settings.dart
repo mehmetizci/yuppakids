@@ -7,12 +7,12 @@ class Settings extends StatelessWidget {
   Settings({this.sizeFactor, this.innerSize});
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 20,
-      left: 20,
+    return Align(
+      alignment: Alignment.topLeft,
       child: Container(
-        width: MediaQuery.of(context).size.width * sizeFactor,
-        height: MediaQuery.of(context).size.width * sizeFactor,
+        width: 64,
+        height: 64,
+        margin: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
         decoration: BoxDecoration(
             color: Colors.amberAccent,
             boxShadow: [BoxShadow(color: Colors.amberAccent, blurRadius: 10)],
@@ -24,11 +24,10 @@ class Settings extends StatelessWidget {
         child: IconButton(
           onPressed: () => Navigator.pop(context),
           alignment: Alignment.center,
-          tooltip: 'ayarlar...',
           icon: Icon(
             Icons.settings,
             color: Colors.white,
-            size: MediaQuery.of(context).size.width * innerSize,
+            size: 48,
           ),
         ),
       ),

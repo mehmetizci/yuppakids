@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yuppakids/widgets/search_video.dart';
+import 'package:yuppakids/screens/search/search_screen.dart';
 
 class Searching extends StatelessWidget {
   final double sizeFactor;
@@ -8,12 +9,12 @@ class Searching extends StatelessWidget {
   Searching({this.sizeFactor, this.innerSize});
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 20,
-      right: 20,
+    return Align(
+      alignment: Alignment.topRight,
       child: Container(
-        width: MediaQuery.of(context).size.width * sizeFactor,
-        height: MediaQuery.of(context).size.width * sizeFactor,
+        width: 64,
+        height: 64,
+        margin: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
         decoration: BoxDecoration(
             color: Colors.amberAccent,
             boxShadow: [BoxShadow(color: Colors.amberAccent, blurRadius: 10)],
@@ -24,15 +25,14 @@ class Searching extends StatelessWidget {
             )),
         child: IconButton(
           onPressed: () => {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => SearchVideo()))
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SearchScreen()))
           },
           alignment: Alignment.center,
-          tooltip: 'video ara...',
           icon: Icon(
             Icons.search,
             color: Colors.white,
-            size: MediaQuery.of(context).size.width * innerSize,
+            size: 48,
           ),
         ),
       ),

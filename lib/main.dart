@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yuppakids/blocs/search/blocs.dart';
 import 'package:yuppakids/widgets/widgets.dart';
 import 'package:flutter/services.dart';
+import 'package:yuppakids/screens/search/search_screen.dart';
 
 void main() {
   Bloc.observer = SimpleBlocObserver();
