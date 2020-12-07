@@ -24,7 +24,7 @@ class _VideoGridState extends State<VideoGrid> {
   bool _handleScrollNotification(ScrollNotification notification) {
     if (notification is ScrollEndNotification &&
         _scrollController.position.extentAfter == 0) {
-      _searchBloc.onFetchNextPageResults();
+      _searchBloc.add(FetchNextPage());
     }
     return false;
   }

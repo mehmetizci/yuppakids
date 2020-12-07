@@ -12,8 +12,8 @@ class YoutubeApiClient {
   }) : assert(httpClient != null);
 
   Future<YoutubeSearchResult> searchVideo(
-      {String searchStr, String key = '', String pageToken = ''}) async {
-    final searchUrl = '$baseUrl/api/search?search_query=$searchStr' +
+      {String query, String key = '', String pageToken = ''}) async {
+    final searchUrl = '$baseUrl/api/search?search_query=$query' +
         (key.isNotEmpty && pageToken.isNotEmpty
             ? '&key=$key&pageToken=$pageToken'
             : '') +

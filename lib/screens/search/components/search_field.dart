@@ -53,7 +53,7 @@ class _SearchFieldState extends State<SearchField> {
           FocusManager.instance.primaryFocus.unfocus();
           if (_textController.text != null) {
             BlocProvider.of<SearchBloc>(context)
-              ..add(SearchRequested(searchTerm: _textController.text));
+              ..add(SearchRequested(query: _textController.text));
           }
         },
         autofocus: true,
