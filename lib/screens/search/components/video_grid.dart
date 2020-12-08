@@ -98,7 +98,7 @@ class _VideoGridState extends State<VideoGrid> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (maxScroll - currentScroll <= _scrollThreshold) {
-      // _postBloc.add(PostFetched());
+      _searchBloc.add(FetchNextPage());
     }
   }
 }

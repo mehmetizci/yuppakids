@@ -95,7 +95,7 @@ class _SearchVideoState extends State<SearchVideo> {
                               if (_textController.text != null) {
                                 BlocProvider.of<SearchBloc>(context)
                                   ..add(SearchRequested(
-                                      searchTerm: _textController.text));
+                                      query: _textController.text));
                               }
                             },
                             autofocus: true,

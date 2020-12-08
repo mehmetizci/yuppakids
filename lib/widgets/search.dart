@@ -23,7 +23,7 @@ class Search extends StatelessWidget {
               );
               if (searchTerm != null) {
                 BlocProvider.of<SearchBloc>(context)
-                    .add(SearchRequested(searchTerm: searchTerm));
+                    .add(SearchRequested(query: searchTerm));
               }
             },
           )
