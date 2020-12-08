@@ -1,4 +1,4 @@
-package com.example.yuppakids
+package com.mizci.yuppakids
 
 import io.flutter.embedding.android.FlutterActivity
 

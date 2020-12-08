@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "744125680174",
+    "project_id": "yuppakids",
+    "storage_bucket": "yuppakids.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744125680174:android:66f7d81ccdde2ac86cadbf",
+        "android_client_info": {
+          "package_name": "com.mizci.yuppakids"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744125680174-8obvg72jfnvh9epinopaefiijth5616r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mizci.yuppakids",
+            "certificate_hash": "c7d9a7b9413dc044f4327bc436e679979d5d264a"
+          }
+        },
+        {
+          "client_id": "744125680174-pn8tp5pbso160pl7tagu1kvq22jqfkjg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDM77To-J4HReE4_tbAod2z14AN9fk6uw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744125680174-pn8tp5pbso160pl7tagu1kvq22jqfkjg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
