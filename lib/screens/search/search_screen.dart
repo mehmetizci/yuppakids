@@ -33,10 +33,6 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void _onFocusChange() {
-    SystemChrome.setEnabledSystemUIOverlays([]);
-  }
-
   @override
   void dispose() {
     // Clean up the focus node when the Form is disposed.

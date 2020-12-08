@@ -17,10 +17,10 @@ class YoutubeApiClient {
         (key.isNotEmpty && pageToken.isNotEmpty
             ? '&key=$key&pageToken=$pageToken'
             : '') +
-        '&sp=CAASBBABIAE%253D';
-
-    final urlEncoded = Uri.encodeFull(searchUrl);
-    final searchResponse = await this.httpClient.get(urlEncoded);
+        '&sp=EgIQAQ%253D%253D';
+    print(searchUrl);
+    // final urlEncoded = Uri.encodeFull(searchUrl);
+    final searchResponse = await this.httpClient.get(searchUrl);
     if (searchResponse.statusCode != 200) {
       throw Exception('Error for getting search results');
     }

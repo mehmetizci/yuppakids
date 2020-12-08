@@ -17,3 +17,5 @@ class SearchRequested extends SearchEvent {
 }
 
 class FetchNextPage extends SearchEvent {}
+
+class ResetState extends SearchEvent {}

@@ -14,6 +14,10 @@ class YoutubeRepository {
 
   Future<YoutubeSearchResult> getVideo(String query) async {
     final searchResult = await youtubeApiClient.searchVideo(query: query);
+    _cacheValues(
+        query: query,
+        nextPageToken: searchResult.nextPageToken,
+        key: searchResult.key);
     return searchResult;
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yuppakids/widgets/search_video.dart';
 import 'package:yuppakids/screens/search/search_screen.dart';
 
 class Searching extends StatelessWidget {
@@ -25,8 +24,10 @@ class Searching extends StatelessWidget {
             )),
         child: IconButton(
           onPressed: () => {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SearchScreen()))
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SearchScreen()),
+            )
           },
           alignment: Alignment.center,
           icon: Icon(

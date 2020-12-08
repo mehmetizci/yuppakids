@@ -21,14 +21,6 @@ class _VideoGridState extends State<VideoGrid> {
     _searchBloc = BlocProvider.of<SearchBloc>(context);
   }
 
-  bool _handleScrollNotification(ScrollNotification notification) {
-    if (notification is ScrollEndNotification &&
-        _scrollController.position.extentAfter == 0) {
-      _searchBloc.add(FetchNextPage());
-    }
-    return false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,45 +30,46 @@ class _VideoGridState extends State<VideoGrid> {
       child: SizedBox(
         height: getProportionateScreenHeight(480),
         child: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
-          if (state is SearchInitial) {
+          if (state.status == SearchStatus.initial) {
+            //print(state.nextPageToken);
             return CenteredMessage(
                 icon: Icons.ondemand_video, message: 'Aramaya başlayın');
           }
-          if (state is SearchLoadInProgress) {
+          if (state.status == SearchStatus.inprogress) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (state is SearchLoadSuccess) {
-            return NotificationListener<ScrollNotification>(
-              onNotification: _handleScrollNotification,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: state.results.length + 1,
-                controller: _scrollController,
-                itemBuilder: (context, index) {
-                  return index >= state.results.length
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : Container(
-                          // height: 200,
-                          child: Card(
-                            semanticContainer: true,
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            child: Image.network(
-                              state.results[index].video.thumbnailSrc,
-                              fit: BoxFit.fill,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            elevation: 5,
-                            margin: EdgeInsets.all(10),
+          if (state.status == SearchStatus.success) {
+            print(state.nextPageToken.isEmpty ? "boş" : "dolu");
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: state.nextPageToken.isEmpty
+                  ? state.results.length
+                  : state.results.length + 1,
+              controller: _scrollController,
+              itemBuilder: (context, index) {
+                return index >= state.results.length
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Container(
+                        // height: 200,
+                        child: Card(
+                          semanticContainer: true,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: Image.network(
+                            state.results[index].video.thumbnailSrc,
+                            fit: BoxFit.fill,
                           ),
-                        );
-                },
-              ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 5,
+                          margin: EdgeInsets.all(10),
+                        ),
+                      );
+              },
             );
           }
           return CenteredMessage(
@@ -91,14 +84,27 @@ class _VideoGridState extends State<VideoGrid> {
   @override
   void dispose() {
     _scrollController.dispose();
+    print("disposing");
+    _searchBloc.add(ResetState());
     super.dispose();
   }
 
-  void _onScroll() {
+  /*void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
     if (maxScroll - currentScroll <= _scrollThreshold) {
       _searchBloc.add(FetchNextPage());
     }
+  }*/
+
+  void _onScroll() {
+    if (_isBottom) _searchBloc.add(FetchNextPage());
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 }

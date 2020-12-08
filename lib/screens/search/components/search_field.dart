@@ -44,6 +44,7 @@ class _SearchFieldState extends State<SearchField> {
       alignment: Alignment.centerLeft,
       height: 80,
       child: TextField(
+        style: TextStyle(fontSize: 20.0, color: Colors.white),
         controller: _textController,
         textInputAction: TextInputAction.search,
         onChanged: (value) => print(value),

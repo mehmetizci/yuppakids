@@ -6,25 +6,29 @@ class SearchState extends Equatable {
   const SearchState({
     this.status = SearchStatus.initial,
     this.results = const <Results>[],
-    this.hasReachedMax = false,
+    this.key = '',
+    this.nextPageToken = '',
   });
 
   final SearchStatus status;
   final List<Results> results;
-  final bool hasReachedMax;
+  final String key;
+  final String nextPageToken;
 
   SearchState copyWith({
     SearchStatus status,
     List<Results> results,
-    bool hasReachedMax,
+    String key,
+    String nextPageToken,
   }) {
     return SearchState(
       status: status ?? this.status,
       results: results ?? this.results,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      key: key ?? this.key,
+      nextPageToken: nextPageToken ?? this.nextPageToken,
     );
   }
 
   @override
-  List<Object> get props => [status, results, hasReachedMax];
+  List<Object> get props => [status, results, key, nextPageToken];
 }
