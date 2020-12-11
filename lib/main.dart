@@ -4,9 +4,7 @@ import 'package:yuppakids/repositories/repositories.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yuppakids/blocs/search/blocs.dart';
-import 'package:yuppakids/widgets/widgets.dart';
-import 'package:flutter/services.dart';
-import 'package:yuppakids/screens/search/search_screen.dart';
+import 'package:yuppakids/splash.dart';
 
 void main() {
   Bloc.observer = SimpleBlocObserver();
@@ -29,15 +27,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([]);
-    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     return BlocProvider<SearchBloc>(
       create: (BuildContext context) =>
           SearchBloc(youtubeRepository: youtubeRepository),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-        home: Home(),
+        home: Splash(),
       ),
     );
   }
