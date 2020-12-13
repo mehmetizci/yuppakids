@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yuppakids/size_config.dart';
 import 'package:yuppakids/screens/search/components/body.dart';
 import 'package:flutter/services.dart';
 
@@ -19,7 +18,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(

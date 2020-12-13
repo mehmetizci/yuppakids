@@ -12,15 +12,21 @@ class SearchHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: SizeConfig.screenWidth * 0.8,
-      alignment: Alignment.centerLeft,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          IconBtn(),
-          SearchField(),
-        ],
-      ),
-    );
+        // width: SizeConfig.screenWidth * 1,
+        alignment: Alignment.centerLeft,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            IconBtn(),
+            SearchField(),
+            SizedBox(width: SizeConfig.screenWidth * 0.3)
+          ] /*ListTile(
+        minLeadingWidth: SizeConfig.screenWidth * 0.3,
+        leading: IconBtn(),
+        title: SearchField(),
+        trailing: SizedBox(width: SizeConfig.screenWidth * 0.3),
+      )*/
+          ,
+        ));
   }
 }

@@ -40,8 +40,9 @@ class _SearchFieldState extends State<SearchField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: SizeConfig.screenWidth * 0.5,
+      width: SizeConfig.screenWidth * 0.3,
       alignment: Alignment.centerLeft,
+      margin: EdgeInsets.symmetric(),
       height: 80,
       child: TextField(
         style: TextStyle(fontSize: 20.0, color: Colors.white),
@@ -54,6 +55,7 @@ class _SearchFieldState extends State<SearchField> {
           FocusManager.instance.primaryFocus.unfocus();
           if (_textController.text != null) {
             BlocProvider.of<SearchBloc>(context)
+              ..add(ResetState())
               ..add(SearchRequested(query: _textController.text));
           }
         },
@@ -68,7 +70,7 @@ class _SearchFieldState extends State<SearchField> {
             ),
             hintStyle: TextStyle(fontSize: 20.0, color: Colors.white),
             hintText: "Youtube videolarda ara...",
-            prefixIcon: Icon(Icons.search, size: 48)),
+            prefixIcon: Icon(Icons.search, size: 48, color: Colors.white)),
       ),
     );
   }

@@ -10,10 +10,10 @@ class Body extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-              height: getProportionateScreenHeight(20), width: double.infinity),
+              height: getProportionateScreenHeight(15), width: double.infinity),
           SearchHeader(),
           SizedBox(
-              height: getProportionateScreenHeight(120),
+              height: getProportionateScreenHeight(110),
               width: double.infinity),
           VideoGrid(),
         ],

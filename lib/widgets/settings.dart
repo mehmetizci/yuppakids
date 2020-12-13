@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yuppakids/screens/settings/parental_settings.dart';
 
 class Settings extends StatelessWidget {
   final double sizeFactor;
@@ -22,7 +23,12 @@ class Settings extends StatelessWidget {
               width: 1,
             )),
         child: IconButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ParentalSettings()),
+            )
+          },
           alignment: Alignment.center,
           icon: Icon(
             Icons.settings,

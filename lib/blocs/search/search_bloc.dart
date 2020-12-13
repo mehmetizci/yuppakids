@@ -34,6 +34,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       results: [],
       key: '',
       nextPageToken: '',
+      error: '',
     );
   }
 
@@ -48,7 +49,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         nextPageToken: nextPageResults.nextPageToken,
       );
     } catch (_) {
-      yield state.copyWith(status: SearchStatus.failure);
+      yield state.copyWith(
+          status: SearchStatus.failure, error: _.error.toString());
     }
   }
 
@@ -66,7 +68,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           nextPageToken: searchResult.nextPageToken,
         );
       } catch (_) {
-        yield state.copyWith(status: SearchStatus.failure);
+        yield state.copyWith(
+            status: SearchStatus.failure, error: _.error.toString());
       }
     }
   }

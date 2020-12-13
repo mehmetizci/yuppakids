@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:yuppakids/widgets/widgets.dart';
+import 'package:yuppakids/size_config.dart';
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     var sizeFactor = 0.09;
     var innerSize = sizeFactor - 0.025;
     return Scaffold(
