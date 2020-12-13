@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yuppakids/blocs/search/blocs.dart';
 import 'package:yuppakids/widgets/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 
 class VideoGrid extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class VideoGrid extends StatefulWidget {
 class _VideoGridState extends State<VideoGrid> {
   final _scrollController = ScrollController();
   SearchBloc _searchBloc;
+  final assetsAudioPlayerRight = AssetsAudioPlayer();
+  final assetsAudioPlayerLeft = AssetsAudioPlayer();
 
   @override
   void initState() {
@@ -46,7 +49,7 @@ class _VideoGridState extends State<VideoGrid> {
             );
           }
           if (state.status == SearchStatus.success) {
-            return NotificationListener<ScrollNotification>(
+            return NotificationListener<ScrollUpdateNotification>(
                 onNotification: _handleScrollNotification,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
@@ -102,11 +105,23 @@ class _VideoGridState extends State<VideoGrid> {
     );
   }
 
-  bool _handleScrollNotification(ScrollNotification notification) {
+  bool _handleScrollNotification(ScrollUpdateNotification notification) {
     if (notification is ScrollEndNotification &&
         _scrollController.position.extentAfter == 0) {
       _searchBloc.add(FetchNextPage());
     }
+
+    if (notification.scrollDelta < 0) {
+      assetsAudioPlayerLeft.open(
+        Audio("assets/sounds/swipe_left.wav"),
+      );
+    }
+    if (notification.scrollDelta > 0) {
+      assetsAudioPlayerRight.open(
+        Audio("assets/sounds/swipe_right.wav"),
+      );
+    }
+
     return false;
   }
 
@@ -114,6 +129,8 @@ class _VideoGridState extends State<VideoGrid> {
   void dispose() {
     _scrollController.dispose();
     _searchBloc.add(ResetState());
+    assetsAudioPlayerRight.dispose();
+    assetsAudioPlayerLeft.dispose();
     super.dispose();
   }
 

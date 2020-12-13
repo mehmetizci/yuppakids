@@ -4,8 +4,8 @@ import 'package:yuppakids/size_config.dart';
 import 'package:yuppakids/widgets/shake_view.dart';
 import 'package:yuppakids/utils/pin_controller.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_sound/flutter_sound.dart';
-import 'dart:async';
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class ParentalSettings extends StatefulWidget {
   ParentalSettings({Key key}) : super(key: key);
@@ -16,6 +16,7 @@ class ParentalSettings extends StatefulWidget {
 
 class _ParentalSettings extends State<ParentalSettings>
     with TickerProviderStateMixin {
+  FlutterTts flutterTts = FlutterTts();
   static String routeName = "/parental_settings";
   AnimationController animationController;
   Animation animation;
@@ -23,13 +24,14 @@ class _ParentalSettings extends State<ParentalSettings>
   ShakeController _shakeController;
   int pinCounter = 0;
   String pinDigits = "";
-  static const _bim = 'assets/sounds/failure.wav';
-  FlutterSoundPlayer _mPlayer = FlutterSoundPlayer();
-  bool _mPlayerIsInited = false;
+
+  final assetsAudioPlayer = AssetsAudioPlayer();
+
   @override
   void initState() {
     super.initState();
     _shakeController = ShakeController(vsync: this);
+    flutterTts.setLanguage("tr-TR");
 
     SystemChrome.setEnabledSystemUIOverlays([]);
     animationController =
@@ -39,38 +41,22 @@ class _ParentalSettings extends State<ParentalSettings>
         setState(() {});
       });
     setPinDigits();
-
-    _mPlayer.openAudioSession().then((value) {
-      setState(() {
-        _mPlayerIsInited = true;
-      });
-    });
+    _speak();
   }
 
-  void play() async {
-    await _mPlayer.startPlayer(
-        fromURI: _bim,
-        codec: Codec.pcm16WAV,
-        whenFinished: () {
-          setState(() {});
-        });
-    setState(() {});
-  }
-
-  Future<void> stopPlayer() async {
-    if (_mPlayer != null) {
-      await _mPlayer.stopPlayer();
-    }
+  Future _speak() async {
+    await flutterTts.setSpeechRate(1);
+    await flutterTts.setPitch(1);
+    var result = await flutterTts
+        .speak("Bu kısımda büyüklerinden yardım alsan iyi olur");
+    // if (result == 1) setState(() => ttsState = TtsState.playing);
   }
 
   @override
   void dispose() {
     _shakeController.dispose();
     animationController.dispose();
-    stopPlayer();
-    // Be careful : you must `close` the audio session when you have finished with it.
-    _mPlayer.closeAudioSession();
-    _mPlayer = null;
+    flutterTts.stop();
     super.dispose();
   }
 
@@ -98,8 +84,8 @@ class _ParentalSettings extends State<ParentalSettings>
   Widget flatButton(
       BuildContext context, String pinDigits, int digit, int index) {
     return FlatButton(
-      height: 150,
-      minWidth: 150,
+      height: getProportionateScreenHeight(200),
+      minWidth: getProportionateScreenWidth(200),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4.0),
           side: BorderSide(color: Colors.white)),
@@ -109,12 +95,17 @@ class _ParentalSettings extends State<ParentalSettings>
       onPressed: () async {
         bool retval = PinController.pinDecoder(pinDigits, digit, index);
         if (!retval) {
-          play();
+          assetsAudioPlayer.open(
+            Audio("assets/sounds/failure.wav"),
+          );
           _shakeController.shake();
           setPinDigits();
           resetPinCounter();
         } else {
           incrementPinCounter();
+          assetsAudioPlayer.open(
+            Audio("assets/sounds/tus.wav"),
+          );
           if (pinCounter == 3) Navigator.pop(context);
         }
       },
@@ -133,7 +124,7 @@ class _ParentalSettings extends State<ParentalSettings>
       child: VerticalSplitView(
         left: Container(
           decoration: BoxDecoration(
-            color: Colors.blueAccent,
+            color: Colors.amber[600],
             image: DecorationImage(
               image: AssetImage("assets/images/fare.png"),
               fit: BoxFit.scaleDown,
@@ -154,17 +145,19 @@ class _ParentalSettings extends State<ParentalSettings>
                   IconButton(
                     iconSize: 48,
                     splashColor: Colors.greenAccent,
+                    color: Colors.white,
                     icon: AnimatedIcon(
                       icon: AnimatedIcons.close_menu,
                       progress: animationController,
                     ),
                     onPressed: () => _handleOnPressed(),
                   ),
+                  SizedBox(width: 10),
                 ],
               ),
               Text(
                 "Lütfen aşağıdaki sayıları giriniz...",
-                style: TextStyle(fontSize: 30, color: Colors.white),
+                style: TextStyle(fontSize: 20, color: Colors.white),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: getProportionateScreenHeight(20)),
