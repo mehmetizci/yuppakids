@@ -6,10 +6,14 @@ class PinController {
   }
 
   static String generatePin() {
-    Random random = new Random();
-    int digit1 = random.nextInt(9) + 1;
-    int digit2 = random.nextInt(9) + 1;
-    int digit3 = random.nextInt(9) + 1;
+    Set<int> setOfInts = Set();
+    while (setOfInts.length < 4) {
+      setOfInts.add(Random().nextInt(9) + 1);
+    }
+
+    int digit1 = setOfInts.elementAt(0);
+    int digit2 = setOfInts.elementAt(1);
+    int digit3 = setOfInts.elementAt(2);
     return toWord(digit1) + " " + toWord(digit2) + " " + toWord(digit3);
   }
 

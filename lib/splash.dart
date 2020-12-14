@@ -10,13 +10,13 @@ class Splash extends StatelessWidget {
     //  SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
 
     return new SplashScreen(
-      seconds: 1,
+      seconds: 3,
       navigateAfterSeconds: Home(),
       title: new Text(
         'YuppaKids başlıyor...',
         style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
       ),
-      image: new Image.asset('assets/images/dog.png'),
+      image: new Image.asset('assets/images/logo.png'),
       backgroundColor: Colors.white,
       styleTextUnderTheLoader: new TextStyle(),
       photoSize: 100.0,
