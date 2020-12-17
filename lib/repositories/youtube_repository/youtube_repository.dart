@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:meta/meta.dart';
-import 'package:yuppakids/repositories/youtube_api_client.dart';
+import 'package:yuppakids/repositories/youtube_repository/youtube_api_client.dart';
 import 'package:yuppakids/models/models.dart';
 
 class YoutubeRepository {

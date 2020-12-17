@@ -5,8 +5,14 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yuppakids/blocs/search/blocs.dart';
 import 'package:yuppakids/splash.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:bloc/bloc.dart';
+import 'package:yuppakids/blocs/authentication/bloc.dart';
+import 'package:yuppakids/blocs/videos/videos.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   Bloc.observer = SimpleBlocObserver();
 
   final YoutubeRepository youtubeRepository = YoutubeRepository(
@@ -15,21 +21,38 @@ void main() {
     ),
   );
 
-  runApp(App(youtubeRepository: youtubeRepository));
+  runApp(KidsApp(youtubeRepository: youtubeRepository));
 }
 
-class App extends StatelessWidget {
+class KidsApp extends StatelessWidget {
   final YoutubeRepository youtubeRepository;
 
-  App({Key key, @required this.youtubeRepository})
+  KidsApp({Key key, @required this.youtubeRepository})
       : assert(youtubeRepository != null),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SearchBloc>(
-      create: (BuildContext context) =>
-          SearchBloc(youtubeRepository: youtubeRepository),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
+          create: (context) {
+            return AuthenticationBloc(
+              userRepository: FirebaseUserRepository(),
+            )..add(AppStarted());
+          },
+        ),
+        BlocProvider<SearchBloc>(
+            create: (BuildContext context) =>
+                SearchBloc(youtubeRepository: youtubeRepository)),
+        BlocProvider<VideosBloc>(
+          create: (context) {
+            return VideosBloc(
+              videosRepository: FirebaseVideosRepository(),
+            )..add(LoadVideos());
+          },
+        )
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
