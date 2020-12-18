@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
-import 'package:yuppakids/models/models.dart';
+import 'package:yuppakids/models/youtube/models.dart';
 import 'dart:convert';
 
 class YoutubeApiClient {

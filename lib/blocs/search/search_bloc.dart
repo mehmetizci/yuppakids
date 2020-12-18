@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:yuppakids/repositories/repositories.dart';
-import 'package:yuppakids/models/models.dart';
+import 'package:yuppakids/models/youtube/models.dart';
 //import 'package:yuppakids/blocs/search/blocs.dart';
 import 'dart:async';
 

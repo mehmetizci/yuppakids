@@ -1,5 +1,5 @@
 import 'package:meta/meta.dart';
-import 'package:yuppakids/repositories/videos_repository/entities/video_entity.dart';
+import 'package:yuppakids/entities/video_entity.dart';
 
 @immutable
 class Video {

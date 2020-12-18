@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:yuppakids/models/models.dart';
+import 'package:yuppakids/models/youtube/models.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yuppakids/blocs/search/blocs.dart';

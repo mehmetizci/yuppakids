@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:yuppakids/models/search_result_item.dart';
+import 'package:yuppakids/models/youtube/search_result_item.dart';
 
 class YoutubeSearchResult extends Equatable {
   final List<Results> results;

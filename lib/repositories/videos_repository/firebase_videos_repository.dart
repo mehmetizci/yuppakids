@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yuppakids/repositories/videos_repository/video_repository.dart';
-import 'package:yuppakids/repositories/videos_repository/entities/video_entity.dart';
+import 'package:yuppakids/entities/video_entity.dart';
 
 class FirebaseVideosRepository implements VideosRepository {
   final videoCollection = FirebaseFirestore.instance.collection('videos');

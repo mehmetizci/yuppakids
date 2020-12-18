@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:yuppakids/models/video.dart';
+import 'package:yuppakids/models/youtube/video.dart';
 
 class Results extends Equatable {
   final Video video;
