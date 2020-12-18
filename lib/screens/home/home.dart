@@ -11,7 +11,7 @@ class Home extends StatelessWidget {
     var sizeFactor = 0.09;
     var innerSize = sizeFactor - 0.025;
     return BlocBuilder<VideosBloc, VideosState>(builder: (context, state) {
-      if (state is VideosLoaded) {
+      if (state.status == VideosStatus.success) {
         print(state.videos.length);
       }
 

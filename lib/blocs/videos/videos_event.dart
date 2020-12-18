@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:yuppakids/repositories/repositories.dart';
-
+part of 'videos_bloc.dart';
 abstract class VideosEvent extends Equatable {
   const VideosEvent();
 

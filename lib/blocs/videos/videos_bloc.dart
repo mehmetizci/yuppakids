@@ -1,8 +1,12 @@
-import 'dart:async';
-import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:yuppakids/blocs/videos/videos.dart';
+import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:yuppakids/repositories/repositories.dart';
+import 'dart:async';
+
+part 'videos_state.dart';
+part 'videos_event.dart';
 
 class VideosBloc extends Bloc<VideosEvent, VideosState> {
   final VideosRepository _videosRepository;
@@ -11,7 +15,7 @@ class VideosBloc extends Bloc<VideosEvent, VideosState> {
   VideosBloc({@required VideosRepository videosRepository})
       : assert(videosRepository != null),
         _videosRepository = videosRepository,
-        super(VideosLoading());
+        super(VideosState());
 
   @override
   Stream<VideosState> mapEventToState(VideosEvent event) async* {
@@ -34,21 +38,41 @@ class VideosBloc extends Bloc<VideosEvent, VideosState> {
 
   Stream<VideosState> _mapLoadVideosToState() async* {
     _videosSubscription?.cancel();
-    _videosSubscription = _videosRepository.videos().listen(
-          (videos) => add(VideosUpdated(videos)),
-        );
+    try {
+      _videosSubscription = _videosRepository.videos().listen(
+            (videos) => add(VideosUpdated(videos)),
+          );
+    } catch (_) {
+      yield state.copyWith(
+          status: VideosStatus.failure, error: _.error.toString());
+    }
   }
 
   Stream<VideosState> _mapAddVideoToState(AddVideo event) async* {
-    _videosRepository.addNewVideo(event.video);
+    try {
+      _videosRepository.addNewVideo(event.video);
+    } catch (_) {
+      yield state.copyWith(
+          status: VideosStatus.failure, error: _.error.toString());
+    }
   }
 
   Stream<VideosState> _mapUpdateVideoToState(UpdateVideo event) async* {
-    _videosRepository.updateVideo(event.updatedVideo);
+    try {
+      _videosRepository.updateVideo(event.updatedVideo);
+    } catch (_) {
+      yield state.copyWith(
+          status: VideosStatus.failure, error: _.error.toString());
+    }
   }
 
   Stream<VideosState> _mapDeleteVideoToState(DeleteVideo event) async* {
-    _videosRepository.deleteVideo(event.video);
+    try {
+      _videosRepository.deleteVideo(event.video);
+    } catch (_) {
+      yield state.copyWith(
+          status: VideosStatus.failure, error: _.error.toString());
+    }
   }
 
   /* Stream<VideosState> _mapToggleAllToState() async* {
@@ -76,7 +100,13 @@ class VideosBloc extends Bloc<VideosEvent, VideosState> {
   }*/
 
   Stream<VideosState> _mapVideosUpdateToState(VideosUpdated event) async* {
-    yield VideosLoaded(event.videos);
+    if (state.status == VideosStatus.initial) {
+      yield state.copyWith(status: VideosStatus.inprogress);
+    }
+    yield state.copyWith(
+      status: VideosStatus.success,
+      videos: event.videos,
+    );
   }
 
   @override
