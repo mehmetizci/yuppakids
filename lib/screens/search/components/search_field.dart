@@ -69,7 +69,7 @@ class _SearchFieldState extends State<SearchField> {
               borderSide: BorderSide(color: Colors.white, width: 2),
             ),
             hintStyle: TextStyle(fontSize: 20.0, color: Colors.white),
-            hintText: "Youtube videolarda ara...",
+            hintText: "Ara...",
             prefixIcon: Icon(Icons.search, size: 48, color: Colors.white)),
       ),
     );

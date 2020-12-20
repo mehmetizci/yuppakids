@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yuppakids/screens/home/components/body.dart';
 import 'package:flutter/services.dart';
+import 'package:yuppakids/size_config.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -8,7 +9,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static String routeName = "/home";
+  static String routeName = "/homescreen";
 
   @override
   void initState() {
@@ -18,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(

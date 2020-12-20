@@ -26,13 +26,12 @@ class _ParentalSettings extends State<ParentalSettings>
   String pinDigits = "";
 
   final assetsAudioPlayer = AssetsAudioPlayer();
-
+  dynamic languages;
   @override
   void initState() {
     super.initState();
     _shakeController = ShakeController(vsync: this);
     flutterTts.setLanguage("tr-TR");
-
     SystemChrome.setEnabledSystemUIOverlays([]);
     animationController =
         AnimationController(duration: Duration(milliseconds: 500), vsync: this);
@@ -41,14 +40,22 @@ class _ParentalSettings extends State<ParentalSettings>
         setState(() {});
       });
     setPinDigits();
+    _getLanguages();
     _speak();
   }
 
+  Future _getLanguages() async {
+    languages = await flutterTts.getLanguages;
+    if (languages != null) setState(() => languages);
+    print(languages);
+  }
+
   Future _speak() async {
+    await flutterTts.setLanguage("tr-TR");
     await flutterTts.setSpeechRate(1);
     await flutterTts.setPitch(1);
-    var result = await flutterTts
-        .speak("Bu kısımda büyüklerinden yardım alsan iyi olur");
+    await flutterTts.awaitSpeakCompletion(true);
+    await flutterTts.speak("Bu kısımda büyüklerinden yardım alsan iyi olur");
     // if (result == 1) setState(() => ttsState = TtsState.playing);
   }
 

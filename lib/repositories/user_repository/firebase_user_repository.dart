@@ -9,6 +9,7 @@ class FirebaseUserRepository implements UserRepository {
 
   Future<bool> isAuthenticated() async {
     final currentUser = _firebaseAuth.currentUser;
+    print(currentUser.uid);
     return currentUser != null;
   }
 

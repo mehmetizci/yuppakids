@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 //import 'package:flutter/services.dart';
-import 'package:yuppakids/screens/home/home.dart';
+import 'package:yuppakids/screens/home/home_screen.dart';
 
 class Splash extends StatelessWidget {
   @override
@@ -11,7 +11,7 @@ class Splash extends StatelessWidget {
 
     return new SplashScreen(
       seconds: 3,
-      navigateAfterSeconds: Home(),
+      navigateAfterSeconds: HomeScreen(),
       title: new Text(
         'YuppaKids başlıyor...',
         style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),

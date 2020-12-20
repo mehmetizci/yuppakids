@@ -52,6 +52,7 @@ class VideosBloc extends Bloc<VideosEvent, VideosState> {
     try {
       _videosRepository.addNewVideo(event.video);
     } catch (_) {
+      print("hata" + _.error.toString());
       yield state.copyWith(
           status: VideosStatus.failure, error: _.error.toString());
     }

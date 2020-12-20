@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yuppakids/simple_bloc_observer.dart';
 import 'package:yuppakids/repositories/repositories.dart';
 import 'package:http/http.dart' as http;
@@ -9,9 +10,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:bloc/bloc.dart';
 import 'package:yuppakids/blocs/authentication/bloc.dart';
 import 'package:yuppakids/blocs/videos/videos.dart';
+import 'package:yuppakids/database/app_database.dart';
+import 'package:yuppakids/utils/prefs_singleton.dart';
+import 'package:yuppakids/utils/shared_prefences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  PrefsSingleton.prefs = await SharedPreferences.getInstance();
+  SharedUserPreferences pref = SharedUserPreferences();
+  pref.setUserId();
+  print(pref.userId);
+  print(pref.profileId);
+  print(pref.profileName);
   await Firebase.initializeApp();
   Bloc.observer = SimpleBlocObserver();
 
@@ -55,7 +66,7 @@ class KidsApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'YuppaKids',
         home: Splash(),
       ),
     );

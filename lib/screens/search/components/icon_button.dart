@@ -9,7 +9,7 @@ class IconBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: SizeConfig.screenWidth * 0.25,
+      width: SizeConfig.screenWidth * 0.30,
       alignment: Alignment.centerLeft,
       height: getProportionateScreenHeight(80),
       child: IconButton(

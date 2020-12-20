@@ -15,7 +15,7 @@ class SearchHeader extends StatelessWidget {
         // width: SizeConfig.screenWidth * 1,
         alignment: Alignment.centerLeft,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconBtn(),
             SearchField(),

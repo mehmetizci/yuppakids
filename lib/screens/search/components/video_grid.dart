@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:yuppakids/size_config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yuppakids/blocs/search/blocs.dart';
+import 'package:yuppakids/blocs/blocs.dart';
 import 'package:yuppakids/widgets/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:yuppakids/models/firestore/models.dart';
 
 class VideoGrid extends StatefulWidget {
   @override
@@ -27,10 +28,10 @@ class _VideoGridState extends State<VideoGrid> {
   Widget build(BuildContext context) {
     return Container(
       width: SizeConfig.screenWidth * 0.90,
-      height: getProportionateScreenHeight(480),
+      height: getProportionateScreenHeight(520),
       alignment: Alignment.centerLeft,
       child: SizedBox(
-        height: getProportionateScreenHeight(460),
+        height: getProportionateScreenHeight(520),
         child: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
           if (state.status == SearchStatus.failure) {
             CenteredMessage(
@@ -78,16 +79,65 @@ class _VideoGridState extends State<VideoGrid> {
                                   Align(
                                     alignment: Alignment.bottomLeft,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        state.results[index].video.title,
-                                        maxLines: 1,
-                                        textScaleFactor: 0.8,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 20,
+                                      padding: const EdgeInsets.all(0.0),
+                                      child: ListTile(
+                                        title: Text(
+                                          state.results[index].video.title,
+                                          textScaleFactor: 0.6,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.visible,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 20),
                                         ),
+                                        trailing: IconButton(
+                                            alignment: Alignment.center,
+                                            onPressed: () => {
+                                                  BlocProvider.of<VideosBloc>(
+                                                          context)
+                                                      .add(
+                                                    AddVideo(Video(
+                                                      userId: 'memoli',
+                                                      profileId: '2',
+                                                      videoId: state
+                                                          .results[index]
+                                                          .video
+                                                          .id,
+                                                      videoTitle: state
+                                                          .results[index]
+                                                          .video
+                                                          .title,
+                                                      videoSnippet: state
+                                                          .results[index]
+                                                          .video
+                                                          .snippet,
+                                                      videoUrl: state
+                                                          .results[index]
+                                                          .video
+                                                          .url,
+                                                      imageUrl: state
+                                                          .results[index]
+                                                          .video
+                                                          .thumbnailSrc,
+                                                      duration: state
+                                                          .results[index]
+                                                          .video
+                                                          .duration,
+                                                      channelUrl: state
+                                                          .results[index]
+                                                          .video
+                                                          .channelUrl,
+                                                    )),
+                                                  )
+                                                },
+                                            iconSize: 16,
+                                            icon: Icon(
+                                              Icons.playlist_add,
+                                              color: Colors.red,
+                                            )),
+                                        onTap: () {
+                                          //Go to the next screen with Navigator.push
+                                        },
                                       ),
                                     ),
                                   ),

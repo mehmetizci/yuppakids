@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yuppakids/screens/search/components/body.dart';
 import 'package:flutter/services.dart';
+import 'package:yuppakids/size_config.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/pampa.png"),
